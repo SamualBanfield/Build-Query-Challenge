@@ -142,8 +142,6 @@ SELECT MAX(Fee)
 FROM SubjectOffering)
 )
 
-
-
 IF OBJECT_ID('Task1') IS NOT NULL DROP VIEW Task1;
 GO
 CREATE VIEW Task1
@@ -154,3 +152,52 @@ AS
     LEFT JOIN Subject Sub ON Sub.SubjCode = E.SubjCode
     LEFT JOIN SubjectOffering Offer ON Offer.SubjCode = E.SubjCode AND Offer.Year = E.Year AND Offer.Semester = E.Semester
     LEFT JOIN Teacher T ON T.StaffID = Offer.StaffID
+GO
+
+SELECT MAX(Fee)
+FROM SubjectOffering
+-- Gets the highest enrollment price
+SELECT *
+FROM Enrolment E
+  INNER JOIN SubjectOffering O ON O.SubjCode = E.SubjCode AND O.Year = E.Year AND O.Semester = E.Semester
+-- Get the combination of offering and enrtollment
+SELECT *
+FROM SubjectOffering
+WHERE Fee = 225
+-- Hard coded the max fee in 
+SELECT *
+FROM Enrolment E
+  INNER JOIN SubjectOffering O ON O.SubjCode = E.SubjCode AND O.Year = E.Year AND O.Semester = E.Semester
+WHERE (Fee = 225)
+
+
+-- The counts should add up to the total which is this count
+SELECT count(*)
+FROM Enrolment
+
+-- Because theres only 4 combinations we can just manually check each hard coded combination
+SELECT count(*)
+FROM Enrolment
+WHERE year = 2020 AND Semester = 1
+SELECT count(*)
+FROM Enrolment
+WHERE year = 2020 AND Semester = 2
+SELECT count(*)
+FROM Enrolment
+WHERE year = 2019 AND Semester = 1
+SELECT count(*)
+FROM Enrolment
+WHERE year = 2019 AND Semester = 2
+
+-- Max Rows in Enrolment
+SELECT count(*)
+FROM Enrolment
+
+SELECT Stu.GivenName, Stu.Surname, E.SubjCode, Sub.Description,
+  Offer.Year, Offer.Semester, Offer.Fee, T.GivenName, T.Surname
+FROM Enrolment E
+  LEFT JOIN Student Stu ON Stu.StudentId = E.StudentId
+  LEFT JOIN Subject Sub ON Sub.SubjCode = E.SubjCode
+  LEFT JOIN SubjectOffering Offer ON Offer.SubjCode = E.SubjCode AND Offer.Year = E.Year AND Offer.Semester = E.Semester
+  LEFT JOIN Teacher T ON T.StaffID = Offer.StaffID
+-- Correct amount of rows
