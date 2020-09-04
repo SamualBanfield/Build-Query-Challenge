@@ -193,11 +193,10 @@ WHERE year = 2019 AND Semester = 2
 SELECT count(*)
 FROM Enrolment
 
-SELECT Stu.GivenName, Stu.Surname, E.SubjCode, Sub.Description,
-  Offer.Year, Offer.Semester, Offer.Fee, T.GivenName, T.Surname
+
+SELECT count(*)
 FROM Enrolment E
   LEFT JOIN Student Stu ON Stu.StudentId = E.StudentId
   LEFT JOIN Subject Sub ON Sub.SubjCode = E.SubjCode
   LEFT JOIN SubjectOffering Offer ON Offer.SubjCode = E.SubjCode AND Offer.Year = E.Year AND Offer.Semester = E.Semester
   LEFT JOIN Teacher T ON T.StaffID = Offer.StaffID
--- Correct amount of rows
