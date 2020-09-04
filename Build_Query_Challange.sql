@@ -120,6 +120,16 @@ VALUES
   ('s34455667', 'ICTDBS205', 2019, 2, 'N', '2019-7-13');
 
 
+SELECT *
+FROM Subject
+SELECT *
+FROM Student
+SELECT *
+FROM Teacher
+SELECT *
+FROM SubjectOffering
+SELECT *
+FROM Enrolment
 
 SELECT Stu.GivenName, Stu.Surname, E.SubjCode, Sub.Description,
   Offer.Year, Offer.Semester, Offer.Fee, T.GivenName, T.Surname
@@ -192,7 +202,6 @@ WHERE year = 2019 AND Semester = 2
 -- Max Rows in Enrolment
 SELECT count(*)
 FROM Enrolment
-
 
 SELECT count(*)
 FROM Enrolment E
