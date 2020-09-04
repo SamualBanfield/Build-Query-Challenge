@@ -121,32 +121,36 @@ VALUES
 
 
 
--- SELECT Stu.GivenName, Stu.Surname, E.SubjCode, Sub.Description,
---   Offer.Year, Offer.Semester, Offer.Fee, T.GivenName, T.Surname
--- FROM Enrolment E
---   LEFT JOIN Student Stu ON Stu.StudentId = E.StudentId
---   LEFT JOIN Subject Sub ON Sub.SubjCode = E.SubjCode
---   LEFT JOIN SubjectOffering Offer ON Offer.SubjCode = E.SubjCode AND Offer.Year = E.Year AND Offer.Semester = E.Semester
---   LEFT JOIN Teacher T ON T.StaffID = Offer.StaffID
+SELECT Stu.GivenName, Stu.Surname, E.SubjCode, Sub.Description,
+  Offer.Year, Offer.Semester, Offer.Fee, T.GivenName, T.Surname
+FROM Enrolment E
+  LEFT JOIN Student Stu ON Stu.StudentId = E.StudentId
+  LEFT JOIN Subject Sub ON Sub.SubjCode = E.SubjCode
+  LEFT JOIN SubjectOffering Offer ON Offer.SubjCode = E.SubjCode AND Offer.Year = E.Year AND Offer.Semester = E.Semester
+  LEFT JOIN Teacher T ON T.StaffID = Offer.StaffID
 
--- SELECT [year], semester, COUNT(*)
--- FROM Enrolment
--- GROUP BY [year], semester
--- ORDER BY [year], semester;
+SELECT [year], semester, COUNT(*)
+FROM Enrolment
+GROUP BY [year], semester
+ORDER BY [year], semester;
 
 SELECT *
-FROM Enrolment e
-WHERE Fee = 
-(	SELECT MAX(Fee) AS Fee
-  FROM SubjectOffering o WHERE e.SubjCode = o.SubjCode AND o.Year = e.Year AND o.Semester = e.Semester
+FROM Enrolment E
+  INNER JOIN SubjectOffering O ON O.SubjCode = E.SubjCode AND O.Year = E.Year AND O.Semester = E.Semester
+WHERE(Fee = (
+SELECT MAX(Fee)
+FROM SubjectOffering)
 )
 
--- GO
--- CREATE VIEW Task1
--- AS
---   SELECT Stu.GivenName AS StuGivenName, Stu.Surname AS StuSurName, E.SubjCode, Sub.Description, Offer.Year, Offer.Semester, Offer.Fee, T.GivenName, T.Surname
---   FROM Enrolment E
---     LEFT JOIN Student Stu ON Stu.StudentId = E.StudentId
---     LEFT JOIN Subject Sub ON Sub.SubjCode = E.SubjCode
---     LEFT JOIN SubjectOffering Offer ON Offer.SubjCode = E.SubjCode AND Offer.Year = E.Year AND Offer.Semester = E.Semester
---     LEFT JOIN Teacher T ON T.StaffID = Offer.StaffID
+
+
+IF OBJECT_ID('Task1') IS NOT NULL DROP VIEW Task1;
+GO
+CREATE VIEW Task1
+AS
+  SELECT Stu.GivenName AS StuGivenName, Stu.Surname AS StuSurName, E.SubjCode, Sub.Description, Offer.Year, Offer.Semester, Offer.Fee, T.GivenName, T.Surname
+  FROM Enrolment E
+    LEFT JOIN Student Stu ON Stu.StudentId = E.StudentId
+    LEFT JOIN Subject Sub ON Sub.SubjCode = E.SubjCode
+    LEFT JOIN SubjectOffering Offer ON Offer.SubjCode = E.SubjCode AND Offer.Year = E.Year AND Offer.Semester = E.Semester
+    LEFT JOIN Teacher T ON T.StaffID = Offer.StaffID
